@@ -1,0 +1,164 @@
+export const en = {
+  // Common & Branding
+  appName: "HAYAT",
+  tagline: "Private Male Reproductive Health Front Door",
+  heroTitle: "A private first step for men's reproductive health.",
+  heroSub: "No name. No login. No judgement. Just clear, explainable guidance in about 4 minutes.",
+  startCheck: "Start my private check",
+  howItWorks: "How it works",
+  
+  // Quick hide & Safety
+  quickHide: "Quick Hide",
+  quickHideTooltip: "Discreet exit (Esc key)",
+  safetyBadge: "Prototype with simulated data",
+  safetyDisclaimer: "HAYAT is a screening and guidance tool. It does not diagnose, prescribe, or replace a clinician. A qualified healthcare professional makes every final decision.",
+  screeningNotDiagnosis: "This is an explainable screening, not a medical diagnosis.",
+  
+  // Navigation
+  navHome: "Home",
+  navCheck: "Start Check",
+  navCare: "Care Navigator",
+  navPrivacy: "Privacy Dashboard",
+  navEvidence: "Evidence",
+  navHowItWorks: "How It Works",
+
+  // Trust pills
+  trustNoAccount: "No account needed",
+  trustDataControl: "You control your data",
+  trustExplainable: "Explainable, not a black box",
+
+  // Landing sections
+  whyEarlierTitle: "Why earlier matters",
+  whyModifiableTitle: "Many causes are modifiable",
+  whyModifiableDesc: "Lifestyle, heat exposure, and metabolic factors can often be improved within 3 months.",
+  whyEarlyBeatsLateTitle: "Early beats late",
+  whyEarlyBeatsLateDesc: "Most men enter the clinic after years of delay. Knowing early preserves reproductive options.",
+  whyFromHomeTitle: "Assessment can start from home",
+  whyFromHomeDesc: "A safe, private questionnaire from your mobile without clinical stigma or public waiting rooms.",
+
+  builtAroundTrustTitle: "Built around trust & dignity",
+  trustPrivateTitle: "Private by design",
+  trustPrivateDesc: "No names, no emails, no tracking cookies. Results stay exclusively on your device.",
+  trustCulturalTitle: "Culturally respectful",
+  trustCulturalDesc: "Neutral language suitable for diverse backgrounds, values, and family plans.",
+  trustClinicalTitle: "Clinically bounded",
+  trustClinicalDesc: "Triage rules informed by international andrology guidelines with zero black-box hallucinations.",
+  trustHumanTitle: "Human oversight",
+  trustHumanDesc: "Never replaces doctors. Directly connects you to qualified urologists and andrologists.",
+
+  tryDemoCase: "Try a demo scenario",
+  demoLow: "Low Risk Case (29y, healthy lifestyle)",
+  demoMod: "Moderate Risk Case (36y, modifiable factors)",
+  demoUrgent: "Urgent Red-Flag Case (31y, acute pain)",
+
+  // Consent
+  consentTitle: "Your data, your rules.",
+  consentSub: "We believe privacy is an absolute right, especially for sensitive men's health questions.",
+  whatWeDo: "What HAYAT does with your answers",
+  whatWeDo1: "Processes your answers to generate an explainable screening summary.",
+  whatWeDo2: "Keeps your inputs and results strictly on this device unless you explicitly export or save them.",
+  whatWeDo3: "Allows you to delete all data at any moment with a single click.",
+  whatWeNeverDo: "What HAYAT never does",
+  whatWeNever1: "Never asks for or stores your name, phone number, national ID, or email.",
+  whatWeNever2: "Never sells or shares data with employers, insurers, or advertising networks.",
+  whatWeNever3: "Never issues a diagnosis or makes automated clinical prescriptions.",
+  consentOpt1: "Process my answers to generate my screening (Required to proceed).",
+  consentOpt2: "Save my results on this device so I can return to them later.",
+  consentOpt3: "Share an anonymised statistical summary to help improve fairness research.",
+  consentOpt4: "Allow me to create a summary I can share with a clinician (I decide when).",
+  dataMinimisationNote: "Data minimisation: We only ask what is clinically pertinent. Every single question can be skipped.",
+  btnUnderstandContinue: "I understand, continue",
+
+  // Wizard steps
+  step1Title: "About you",
+  step2Title: "Your journey",
+  step3Title: "Daily life",
+  step4Title: "Body & metabolic",
+  step5Title: "History & symptoms",
+  step6Title: "Test results (optional)",
+  whyWeAsk: "Why we ask this",
+  preferNotToSay: "Prefer not to say",
+  skipQuestion: "Skip",
+  next: "Next step",
+  back: "Back",
+  seeScreening: "See my screening",
+
+  // Analysing
+  analysingTitle: "Analysing your inputs safely...",
+  reassurance1: "Checking for red flags first",
+  reassurance2: "Weighing your lifestyle and metabolic factors",
+  reassurance3: "Preparing explanations in plain, respectful language",
+
+  // Results
+  screeningResultTitle: "Screening Summary",
+  riskBandLow: "Low Risk Band",
+  riskBandMod: "Moderate Risk Band",
+  riskBandElev: "Elevated Risk Band",
+  riskBandUrgent: "Urgent Assessment Needed",
+  urgentCardTitle: "Urgent Medical Assessment Recommended Today",
+  urgentCardBody: "You reported one or more symptoms that can be time-sensitive (such as acute severe pain or rapid swelling). Please seek immediate in-person medical evaluation at an urgent care centre or emergency department.",
+  whyThisResult: "Why this result? (Explainable factors)",
+  simpleView: "Simple view",
+  detailedView: "Detailed view",
+  raisesRisk: "Raises risk",
+  lowersRisk: "Works in your favour",
+  neutralRisk: "Neutral factor",
+  canChange: "You can change this",
+  cannotChange: "Not changeable",
+  favourableTitle: "Factors working in your favour",
+  notUsedTitle: "What we did NOT use in this calculation:",
+  notUsedList: "Name, address, national ID, ethnicity, religion, or insurance status.",
+  screeningVsDiagnosis: "Screening vs Medical Diagnosis",
+  screeningVs1: "This indicates risk signals that merit attention, not a disease diagnosis.",
+  screeningVs2: "Only a medical doctor with diagnostic testing can determine fertility status.",
+  screeningVs3: "Many reproductive risk factors are completely reversible with targeted care.",
+  recommendedTriage: "Recommended Clinical Pathway",
+  actionPlanTitle: "Practical things you can start this week",
+  questionsToAskDoctor: "Questions to bring to your doctor",
+  openCareNav: "Open Care Navigator",
+  createClinicianSummary: "Create Clinician Summary (PDF / Print)",
+  deleteMyDataNow: "Delete my data now",
+
+  // Care Navigator
+  careNavTitle: "Care Navigator",
+  careNavSub: "Guiding you to discreet, culturally attuned, and clinically verified next steps.",
+  whatToExpect: "What to expect",
+  typicalVisit: "Typical clinical visit",
+  howToPrepare: "How to prepare",
+  privateTeleconsult: "Discreet Teleconsultation",
+  bookSlot: "Request private slot",
+  findClinic: "Find a verified clinic",
+  filterMaleFriendly: "Male-friendly privacy",
+  filterPrivateEntrance: "Private entrance",
+  filterMaleClinician: "Male clinician preference",
+  filterFemaleClinician: "Female clinician preference",
+  referralTracker: "Referral & Pathway Tracker",
+
+  // Privacy Dashboard
+  privacyTitle: "Privacy & Data Dashboard",
+  privacySub: "Complete visibility and unilateral control over any data on this device.",
+  dataInventory: "Data Inventory",
+  exportJson: "Export my data (JSON)",
+  deleteEverything: "Delete everything now",
+  accessLog: "Device Access Log",
+  howProtected: "How your information is protected",
+
+  // Evidence
+  evidenceTitle: "Evidence & Simulated Cohort Evaluation",
+  evidenceSub: "500 synthetic cases simulated under clinical oversight. (Simulated evaluation, not real patients).",
+  kpiCompletion: "Assessment Completion Rate",
+  kpiTime: "Median Time to Evaluation",
+  kpiReferral: "Referral Completion Rate",
+  kpiTrust: "User Trust Score",
+  kpiRecall: "Red-Flag Recall",
+
+  // Quick hide screen
+  wellnessTipsTitle: "Daily Wellness & Hydration Tracker",
+  wellnessTipsSub: "Simple science-backed habits for steady energy and focus throughout the day.",
+  returnToHayat: "Return to session",
+
+  // Language
+  langEn: "English",
+  langHi: "हिन्दी",
+  langAr: "العربية"
+};
