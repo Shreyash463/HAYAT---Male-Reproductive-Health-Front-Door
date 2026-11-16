@@ -22,6 +22,8 @@ import {
   Scale,
   FileCheck,
   AlertCircle,
+  ChevronDown,
+  Sliders,
 } from 'lucide-react';
 
 export const EvidencePage: React.FC = () => {
@@ -73,7 +75,7 @@ export const EvidencePage: React.FC = () => {
             {t.evidenceTitle}
           </h1>
           <p className="text-base text-[var(--text-muted)]">
-            500 synthetic cases run directly through the rule-based screening engine to inspect rule consistency and demographic parity.
+            500 synthetic cases run directly through the rule-based screening engine to inspect rule consistency across demographic groups.
           </p>
         </div>
       </Reveal>
@@ -284,7 +286,7 @@ export const EvidencePage: React.FC = () => {
         </div>
       </Reveal>
 
-      {/* Fairness Audit */}
+      {/* Fairness & Consistency Check */}
       <Reveal delay={0.08}>
         <div className="paper-card p-6 sm:p-8 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -292,7 +294,7 @@ export const EvidencePage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <Scale className="w-5 h-5 text-[var(--accent-text)]" />
                 <h2 className="text-lg font-bold font-heading text-[var(--text-main)]">
-                  Demographic Fairness &amp; Parity Audit
+                  Demographic Fairness &amp; Consistency Check
                 </h2>
               </div>
               <p className="text-sm text-[var(--text-muted)] mt-0.5">
@@ -315,13 +317,13 @@ export const EvidencePage: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="surface-panel p-4 sm:p-5 space-y-3">
-              <h3 className="text-sm font-bold text-[var(--text-main)]">Simulated Parity by Age Bracket</h3>
+              <h3 className="text-sm font-bold text-[var(--text-main)]">Simulated Consistency by Age Bracket</h3>
               <div className="h-56">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={metrics.fairnessByAge} margin={{ top: 14, right: 12, left: 0, bottom: 5 }}>
                     <CartesianGrid vertical={false} stroke="var(--chart-grid)" strokeDasharray="3 3" />
                     <XAxis dataKey="ageGroup" stroke="var(--chart-axis)" fontSize={12} />
-                    <YAxis domain={[85, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
+                    <YAxis domain={[0, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
                     <Tooltip contentStyle={tooltipStyle} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
                     <Bar
@@ -346,13 +348,13 @@ export const EvidencePage: React.FC = () => {
             </div>
 
             <div className="surface-panel p-4 sm:p-5 space-y-3">
-              <h3 className="text-sm font-bold text-[var(--text-main)]">Simulated Parity by Language</h3>
+              <h3 className="text-sm font-bold text-[var(--text-main)]">Simulated Consistency by Language</h3>
               <div className="h-56">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={metrics.fairnessByLanguage} margin={{ top: 14, right: 12, left: 0, bottom: 5 }}>
                     <CartesianGrid vertical={false} stroke="var(--chart-grid)" strokeDasharray="3 3" />
                     <XAxis dataKey="language" stroke="var(--chart-axis)" fontSize={12} />
-                    <YAxis domain={[85, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
+                    <YAxis domain={[0, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
                     <Tooltip contentStyle={tooltipStyle} />
                     <Legend wrapperStyle={{ fontSize: '12px' }} />
                     <Bar
@@ -378,6 +380,50 @@ export const EvidencePage: React.FC = () => {
           </div>
         </div>
       </Reveal>
+
+      {/* Model Assumptions Accordion */}
+      {metrics.assumptions && metrics.assumptions.length > 0 && (
+        <Reveal delay={0.08}>
+          <div className="paper-card p-6 sm:p-8 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Sliders className="w-5 h-5 text-[var(--accent-text)]" />
+                <h2 className="text-lg font-bold font-heading text-[var(--text-main)]">
+                  {t.assumptionsTitle}
+                </h2>
+              </div>
+              <span className="text-xs font-mono text-[var(--text-muted)] bg-[var(--surface)] px-2.5 py-1 rounded-full border border-[var(--border-hairline)]">
+                {metrics.assumptions.length} documented assumptions
+              </span>
+            </div>
+            <p className="text-sm text-[var(--text-muted)]">
+              Transparently stating our simulation parameters, benchmark references, and clinical boundaries.
+            </p>
+
+            <div className="space-y-3 pt-2">
+              {metrics.assumptions.map(item => (
+                <details
+                  key={item.id}
+                  className="group rounded-2xl bg-[var(--surface)] border border-[var(--border-hairline)] overflow-hidden"
+                >
+                  <summary className="p-4 flex items-center justify-between cursor-pointer list-none select-none hover:bg-[var(--card-alt)] transition-colors">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                      <span className="font-semibold text-sm sm:text-base text-[var(--text-main)]">{item.label}</span>
+                      <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-[var(--accent-soft)] text-[var(--accent-text)] border border-[var(--border-hairline)]">
+                        {item.value}
+                      </span>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-[var(--text-muted)] transition-transform duration-200 group-open:rotate-180 shrink-0" />
+                  </summary>
+                  <div className="p-4 pt-0 text-sm text-[var(--text-muted)] leading-relaxed border-t border-[var(--border-hairline)] bg-[var(--card)]">
+                    {item.description}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      )}
 
       {/* Honest Method and Limits Panel */}
       <Reveal delay={0.08}>

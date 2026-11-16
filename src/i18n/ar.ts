@@ -62,6 +62,8 @@ export const ar: typeof en = {
   consentOpt2: "حفظ النتائج على هذا الجهاز للرجوع إليها لاحقاً.",
   consentOpt3: "مشاركة ملخص إحصائي مجهول الهوية لدعم أبحاث العدالة الصحية.",
   consentOpt4: "السماح بإنشاء ملخص لطبيبي المعالج (أنا أحدد متى أشاركه).",
+  consentOptAi: "استخدام الذكاء الاصطناعي لإعادة صياغة الشروحات بلغة مبسطة وسهلة الفهم (اختياري، يرسل فقط وسوم الفئات المجهولة دون أي بيانات شخصية).",
+  anonymisedResearchDisclaimer: "ملاحظة: البيانات الإحصائية المجمعة للبحوث تُرسل دون أي معرفات للأجهزة أو رموز شخصية ولا يمكن استرجاعها أو مطابقتها بأثر رجعي.",
   dataMinimisationNote: "تقليل جمع البيانات: نسأل فقط عما هو ضروري طبياً. ويمكنك تخطي أي سؤال.",
   btnUnderstandContinue: "أوافق وأفهم، متابعة",
 
@@ -111,6 +113,11 @@ export const ar: typeof en = {
   openCareNav: "فتح دليل الرعاية",
   createClinicianSummary: "إنشاء تقرير للطبيب (طباعة / PDF)",
   deleteMyDataNow: "حذف بياناتي الآن",
+  aiExplanationBadge: "شرح مبسط بالذكاء الاصطناعي",
+  standardExplanationBadge: "الشرح القياسي القائم على القواعد",
+  standardExplanationNote: "تم عرض الشرح القياسي المباشر (نص محدد ومبني على القواعد).",
+  showOriginalExplanation: "عرض الشرح القياسي المبني على القواعد",
+  showAiExplanation: "عرض الشرح المبسط بالذكاء الاصطناعي",
 
   careNavTitle: "دليل الرعاية الطبية",
   careNavSub: "إرشادك نحو خطوات طبية موثوقة ومراعية للخصوصية.",
@@ -133,6 +140,10 @@ export const ar: typeof en = {
   deleteEverything: "حذف كل شيء فوراً",
   accessLog: "سجل العمليات على الجهاز",
   howProtected: "كيف نحمي معلوماتك",
+  whatLeftDeviceTitle: "ماذا خرج من جهازك",
+  whatLeftDeviceEmpty: "لا شيء إطلاقاً. تمت جميع حسابات التقييم محلياً بنسبة 100% داخل جهازك.",
+  whatLeftDeviceTableTitle: "سجل الإرسال عبر الشبكة",
+  whatLeftDeviceZeroNetwork: "صفر طلبات صحية خارجية. تنفيذ محلي حصري داخل المتصفح.",
 
   evidenceTitle: "الأدلة وتقييم المحاكاة السريرية",
   evidenceSub: "500 حالة محاكاة تحت إشراف سريري. (تقييم تجريبي، وليس لمرضى حقيقيين).",
@@ -141,6 +152,8 @@ export const ar: typeof en = {
   kpiReferral: "نسبة إتمام الإحالات",
   kpiTrust: "معدل ثقة المستخدمين",
   kpiRecall: "دقة اكتشاف الحالات العاجلة",
+  assumptionsTitle: "الافتراضات المنهجية وحدود النموذج",
+  consistencyCheckBadge: "فحص الاتساق الديموغرافي",
 
   wellnessTipsTitle: "نصائح الصحة اليومية وشرب الماء",
   wellnessTipsSub: "عادات بسيطة ومثبتة علمياً للحفاظ على النشاط والتركيز طوال اليوم.",

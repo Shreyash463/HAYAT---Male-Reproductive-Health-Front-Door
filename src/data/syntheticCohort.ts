@@ -207,12 +207,14 @@ export function generateSyntheticCohort(): SyntheticCohortMetrics {
     referralCompletionRate,
     trustScore,
     redFlagRecall,
+    redFlagKpiLabel: 'by design: rule-based safety override',
     completionFunnel,
     timeComparison,
     triageDistribution,
     fairnessByAge,
     fairnessByLanguage,
     maxGapPercentage: 1.8,
+    consistencyAchieved: true,
     parityAchieved: true
   };
 }

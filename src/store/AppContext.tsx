@@ -5,7 +5,8 @@ import {
   ConsentSettings, 
   AssessmentAnswers, 
   AssessmentResult, 
-  AccessLogItem 
+  AccessLogItem,
+  OutboundCallLog
 } from '../types';
 import { getTranslation } from '../i18n';
 import { en } from '../i18n/en';
@@ -39,6 +40,7 @@ interface AppContextType {
   // Audit Log & Referral Tracker
   accessLogs: AccessLogItem[];
   addLog: (action: string, detail: string) => void;
+  outboundCalls: OutboundCallLog[];
   referralStep: number; // 0: Screened, 1: Booked, 2: Assessed, 3: Follow-up
   setReferralStep: (step: number) => void;
 }
@@ -48,6 +50,7 @@ const defaultConsent: ConsentSettings = {
   saveOnDevice: false,
   shareAnonymisedResearch: false,
   createClinicianSummary: false,
+  useAiExplanation: false,
 };
 
 const initialAnswers: AssessmentAnswers = {
@@ -77,6 +80,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       detail: 'Ephemeral private session started on device'
     }
   ]);
+  const [outboundCalls, setOutboundCalls] = useState<OutboundCallLog[]>([]);
+
+  // Listen for outbound network dispatch events
+  useEffect(() => {
+    const handleOutbound = (e: Event) => {
+      const detail = (e as CustomEvent<OutboundCallLog>).detail;
+      if (detail) {
+        setOutboundCalls(prev => [detail, ...prev].slice(0, 50));
+        addLog('Network Transmit', `${detail.method} ${detail.endpoint} (${detail.status})`);
+      }
+    };
+    window.addEventListener('hayat:outbound', handleOutbound);
+    return () => window.removeEventListener('hayat:outbound', handleOutbound);
+  }, []);
 
   // Load from localStorage ONLY if previously allowed
   useEffect(() => {
@@ -194,17 +211,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const clearAllData = () => {
+    const wasResearchOptIn = consent.shareAnonymisedResearch;
     setAnswersState(initialAnswers);
     setResultState(null);
     setConsentState(defaultConsent);
     setReferralStepState(0);
-    localStorage.removeItem(STORAGE_KEY);
+    setOutboundCalls([]);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+      sessionStorage.clear();
+    } catch {
+      // Ignore storage errors
+    }
     setAccessLogs([
       {
         id: `wipe-${Date.now()}`,
         timestamp: new Date().toISOString(),
         action: 'Data Purged',
-        detail: 'User initiated full wipe of all local records.'
+        detail: wasResearchOptIn
+          ? 'User initiated full wipe of all local records. Note: Anonymised research aggregates previously submitted contain zero identifiers or device tokens and cannot be matched or retracted.'
+          : 'User initiated full wipe of all local records. Device memory and cache cleared completely.'
       }
     ]);
   };
@@ -232,6 +258,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         clearAllData,
         accessLogs,
         addLog,
+        outboundCalls,
         referralStep,
         setReferralStep: setReferralStepState
       }}

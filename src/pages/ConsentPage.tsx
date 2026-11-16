@@ -88,6 +88,12 @@ export const ConsentPage: React.FC = () => {
       sub: 'Prepares a printable PDF summary if you choose to bring one to an appointment.',
       required: false,
     },
+    {
+      key: 'useAiExplanation' as const,
+      title: t.consentOptAi,
+      sub: 'Sends non-identifying risk category tags to AI for simpler, plain-language wording. Default: Off.',
+      required: false,
+    },
   ];
 
   return (

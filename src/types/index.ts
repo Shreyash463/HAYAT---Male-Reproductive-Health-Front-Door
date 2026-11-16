@@ -15,7 +15,18 @@ export interface ConsentSettings {
   saveOnDevice: boolean;
   shareAnonymisedResearch: boolean;
   createClinicianSummary: boolean;
+  useAiExplanation?: boolean;
   timestamp?: string;
+}
+
+export interface OutboundCallLog {
+  id: string;
+  timestamp: string;
+  endpoint: string;
+  method: string;
+  payloadSummary: string;
+  status: 'success' | 'fallback' | 'failed' | 'offline';
+  responseSummary?: string;
 }
 
 export interface AssessmentAnswers {
@@ -85,6 +96,8 @@ export interface AssessmentResult {
   actions: string[];
   doctorQuestions: string[];
   calculatedAt: string;
+  aiExplanation?: string;
+  aiUsed?: boolean;
 }
 
 export interface AccessLogItem {
@@ -111,6 +124,13 @@ export interface Clinic {
   waitDays: number;
 }
 
+export interface AssumptionItem {
+  id: string;
+  label: string;
+  value: string;
+  description: string;
+}
+
 export interface SyntheticCohortMetrics {
   totalCases: number;
   completionRate: number; // e.g. 91
@@ -119,11 +139,14 @@ export interface SyntheticCohortMetrics {
   referralCompletionRate: number; // 68
   trustScore: number; // 4.5
   redFlagRecall: number; // 100
+  redFlagKpiLabel?: string;
   completionFunnel: { step: string; completionRate: number }[];
   timeComparison: { group: string; months: number }[];
   triageDistribution: { level: string; percentage: number; count: number }[];
-  fairnessByAge: { ageGroup: string; completion: number; triageAccuracy: number; trust: number }[];
-  fairnessByLanguage: { language: string; completion: number; triageAccuracy: number; trust: number }[];
+  fairnessByAge: { ageGroup?: string; group?: string; completion: number; triageAccuracy?: number; consistencyRate?: number; trust: number }[];
+  fairnessByLanguage: { language?: string; group?: string; completion: number; triageAccuracy?: number; consistencyRate?: number; trust: number }[];
   maxGapPercentage: number;
-  parityAchieved: boolean;
+  consistencyAchieved: boolean;
+  parityAchieved?: boolean;
+  assumptions?: AssumptionItem[];
 }

@@ -7,6 +7,7 @@ import { FactorBar } from '../components/FactorBar';
 import { TriageLadder } from '../components/TriageLadder';
 import { ClinicianSummaryModal } from '../components/ClinicianSummaryModal';
 import { WhatIfPanel } from '../components/WhatIfPanel';
+import { explain } from '../services/api';
 import { Reveal, DURATIONS, HAYAT_EASE, usePrefersReducedMotion } from '../motion';
 import {
   AlertTriangle,
@@ -24,7 +25,7 @@ import {
 } from 'lucide-react';
 
 export const ResultsPage: React.FC = () => {
-  const { result, answers, t, consent, updateConsent, clearAllData } = useApp();
+  const { result, answers, t, consent, updateConsent, clearAllData, language } = useApp();
   const navigate = useNavigate();
   const reduced = usePrefersReducedMotion();
 
@@ -32,6 +33,23 @@ export const ResultsPage: React.FC = () => {
   const [showClinicianModal, setShowClinicianModal] = useState(false);
   const [showConsentPromptModal, setShowConsentPromptModal] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [explanationData, setExplanationData] = useState<{ explanation: string; aiUsed: boolean } | null>(null);
+  const [showOriginalExplanation, setShowOriginalExplanation] = useState(false);
+
+  useEffect(() => {
+    if (!result) return;
+    let isCurrent = true;
+    explain(result, detailedView ? 'detailed' : 'simple', language, consent.useAiExplanation)
+      .then(res => {
+        if (isCurrent) setExplanationData(res);
+      })
+      .catch(() => {
+        // Handled silently
+      });
+    return () => {
+      isCurrent = false;
+    };
+  }, [result, detailedView, language, consent.useAiExplanation]);
 
   if (!result) {
     return (
@@ -261,6 +279,48 @@ export const ResultsPage: React.FC = () => {
                   {t.detailedView}
                 </button>
               </div>
+            </div>
+
+            {/* Narrative Explanation Card with AI / Rule-based Badge & Toggle */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-[var(--surface)] border border-[var(--border-hairline)] space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  {explanationData?.aiUsed && !showOriginalExplanation ? (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--accent-soft)] text-[var(--accent-text)] border border-[var(--border-hairline)]">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>{t.aiExplanationBadge}</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--card)] text-[var(--text-muted)] border border-[var(--border-hairline)]">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span>{t.standardExplanationBadge}</span>
+                    </span>
+                  )}
+                </div>
+
+                {/* If AI explanation was used, offer toggle to view original rule-based text */}
+                {explanationData?.aiUsed && (
+                  <button
+                    type="button"
+                    onClick={() => setShowOriginalExplanation(prev => !prev)}
+                    className="text-xs font-medium text-[var(--accent-text)] hover:underline cursor-pointer"
+                  >
+                    {showOriginalExplanation ? t.showAiExplanation : t.showOriginalExplanation}
+                  </button>
+                )}
+              </div>
+
+              <p className="text-base text-[var(--text-main)] leading-relaxed">
+                {showOriginalExplanation
+                  ? result.triageReason
+                  : (explanationData?.explanation || result.triageReason)}
+              </p>
+
+              {!explanationData?.aiUsed && (
+                <p className="text-xs text-[var(--text-muted)] font-mono">
+                  {t.standardExplanationNote}
+                </p>
+              )}
             </div>
 
             {/* Contributing Risk Factors */}

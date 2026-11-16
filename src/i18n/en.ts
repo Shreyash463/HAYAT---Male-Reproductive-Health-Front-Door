@@ -66,6 +66,8 @@ export const en = {
   consentOpt2: "Save my results on this device so I can return to them later.",
   consentOpt3: "Share an anonymised statistical summary to help improve fairness research.",
   consentOpt4: "Allow me to create a summary I can share with a clinician (I decide when).",
+  consentOptAi: "Use AI assistance to rewrite screening explanations into simpler, plain-language text (Optional, sends only non-identifying risk category tags).",
+  anonymisedResearchDisclaimer: "Anonymised research aggregates are submitted without device IDs or personal markers and cannot be retroactively retracted or matched.",
   dataMinimisationNote: "Data minimisation: We only ask what is clinically pertinent. Every single question can be skipped.",
   btnUnderstandContinue: "I understand, continue",
 
@@ -118,6 +120,11 @@ export const en = {
   openCareNav: "Open Care Navigator",
   createClinicianSummary: "Create Clinician Summary (PDF / Print)",
   deleteMyDataNow: "Delete my data now",
+  aiExplanationBadge: "AI-simplified explanation",
+  standardExplanationBadge: "Standard rule-based explanation",
+  standardExplanationNote: "Standard explanation shown (deterministic rule-based text).",
+  showOriginalExplanation: "View original rule-based explanation",
+  showAiExplanation: "View AI-simplified explanation",
 
   // Care Navigator
   careNavTitle: "Care Navigator",
@@ -142,6 +149,10 @@ export const en = {
   deleteEverything: "Delete everything now",
   accessLog: "Device Access Log",
   howProtected: "How your information is protected",
+  whatLeftDeviceTitle: "What left your device",
+  whatLeftDeviceEmpty: "Nothing. All screening calculations were performed 100% locally on your device.",
+  whatLeftDeviceTableTitle: "Logged Network Transmissions",
+  whatLeftDeviceZeroNetwork: "Zero outbound health requests. Pure client-side execution.",
 
   // Evidence
   evidenceTitle: "Evidence & Simulated Cohort Evaluation",
@@ -151,6 +162,8 @@ export const en = {
   kpiReferral: "Referral Completion Rate",
   kpiTrust: "User Trust Score",
   kpiRecall: "Red-Flag Recall",
+  assumptionsTitle: "Model Assumptions & Methodological Bounds",
+  consistencyCheckBadge: "Demographic Consistency Check",
 
   // Quick hide screen
   wellnessTipsTitle: "Daily Wellness & Hydration Tracker",

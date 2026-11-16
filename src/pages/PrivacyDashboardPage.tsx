@@ -29,6 +29,7 @@ export const PrivacyDashboardPage: React.FC = () => {
     clearAllData,
     accessLogs,
     addLog,
+    outboundCalls,
   } = useApp();
 
   const reduced = usePrefersReducedMotion();
@@ -266,6 +267,82 @@ export const PrivacyDashboardPage: React.FC = () => {
               </p>
             </div>
           </div>
+
+          {/* Outbound Network Transmission Live Audit */}
+          <div className="space-y-3 pt-3 border-t border-[var(--border-hairline)]">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-bold text-[var(--text-main)] flex items-center gap-2">
+                <GlobeLock className="w-4 h-4 text-[var(--accent-text)]" />
+                <span>{t.whatLeftDeviceTableTitle}</span>
+              </span>
+              <span className="text-xs font-mono text-[var(--text-muted)] bg-[var(--surface)] px-2.5 py-0.5 rounded-full border border-[var(--border-hairline)]">
+                {outboundCalls.length} transmissions logged
+              </span>
+            </div>
+
+            {outboundCalls.length === 0 ? (
+              <div
+                className="p-4 rounded-2xl border text-sm sm:text-base flex items-center gap-3"
+                style={{
+                  backgroundColor: 'var(--risk-low-bg)',
+                  borderColor: 'var(--risk-low-border)',
+                  color: 'var(--risk-low)',
+                }}
+              >
+                <CheckCircle2 className="w-5 h-5 shrink-0" />
+                <div>
+                  <strong className="block">{t.whatLeftDeviceEmpty}</strong>
+                  <span className="text-xs text-[var(--text-muted)] block mt-0.5">{t.whatLeftDeviceZeroNetwork}</span>
+                </div>
+              </div>
+            ) : (
+              <div className="border border-[var(--border-hairline)] rounded-2xl overflow-x-auto bg-[var(--surface)]">
+                <table className="w-full text-start text-xs sm:text-sm">
+                  <thead className="bg-[var(--card-alt)] text-[var(--text-main)] border-b border-[var(--border-hairline)]">
+                    <tr>
+                      <th className="p-3 font-bold text-start">Timestamp</th>
+                      <th className="p-3 font-bold text-start">Endpoint</th>
+                      <th className="p-3 font-bold text-start">Status</th>
+                      <th className="p-3 font-bold text-start">Transmitted Payload</th>
+                      <th className="p-3 font-bold text-start">Response</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[var(--border-hairline)]">
+                    {outboundCalls.map(call => (
+                      <tr key={call.id} className="hover:bg-[var(--card)] transition-colors">
+                        <td className="p-3 font-mono text-xs text-[var(--text-muted)] whitespace-nowrap">
+                          {new Date(call.timestamp).toLocaleTimeString()}
+                        </td>
+                        <td className="p-3 font-mono text-xs font-semibold text-[var(--text-main)] whitespace-nowrap">
+                          <span className="px-1.5 py-0.5 rounded bg-[var(--card)] border text-[11px] me-1.5 font-bold">
+                            {call.method}
+                          </span>
+                          {call.endpoint}
+                        </td>
+                        <td className="p-3">
+                          <span
+                            className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold"
+                            style={{
+                              backgroundColor: call.status === 'success' ? 'var(--risk-low-bg)' : 'var(--risk-mod-bg)',
+                              color: call.status === 'success' ? 'var(--risk-low)' : 'var(--risk-mod)',
+                            }}
+                          >
+                            {call.status}
+                          </span>
+                        </td>
+                        <td className="p-3 font-mono text-xs text-[var(--text-main)] max-w-xs truncate">
+                          {call.payloadSummary}
+                        </td>
+                        <td className="p-3 text-xs text-[var(--text-muted)] max-w-xs truncate">
+                          {call.responseSummary || 'Completed'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       </Reveal>
 
@@ -421,12 +498,17 @@ export const PrivacyDashboardPage: React.FC = () => {
               {
                 key: 'shareAnonymisedResearch' as const,
                 title: t.consentOpt3,
-                sub: 'Simulated preference toggle; no data is transmitted in this prototype.',
+                sub: `Shares non-identifying aggregate statistics for fairness research. ${t.anonymisedResearchDisclaimer}`,
               },
               {
                 key: 'createClinicianSummary' as const,
                 title: t.consentOpt4,
                 sub: 'Permits formatting of printable clinician summary documents.',
+              },
+              {
+                key: 'useAiExplanation' as const,
+                title: t.consentOptAi,
+                sub: 'Sends non-identifying risk category codes to the AI service for simpler language explanations.',
               },
             ].map(item => {
               const checked = consent[item.key];
