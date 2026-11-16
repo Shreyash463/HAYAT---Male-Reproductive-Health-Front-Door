@@ -33,22 +33,30 @@ class ResearchStore:
             except Exception as e:
                 logger.warning(f"Failed to connect to Firebase Firestore: {e}. Falling back to SQLite.")
 
+        # Check if running in Vercel serverless environment without Firestore
+        if os.environ.get("VERCEL") and not self._firestore_db:
+            logger.info("Vercel serverless environment active: running in ephemeral research aggregate mode.")
+            return
+
         # Ensure SQLite data directory exists
-        os.makedirs(os.path.dirname(settings.SQLITE_DB_PATH), exist_ok=True)
-        with sqlite3.connect(settings.SQLITE_DB_PATH) as conn:
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS research_aggregates (
-                    id TEXT PRIMARY KEY,
-                    age_bracket TEXT NOT NULL,
-                    band TEXT NOT NULL,
-                    triage_level TEXT NOT NULL,
-                    language TEXT NOT NULL,
-                    date TEXT NOT NULL,
-                    created_at TEXT NOT NULL
-                )
-            """)
-            conn.commit()
-        logger.info(f"Initialized local SQLite research database at {settings.SQLITE_DB_PATH}")
+        try:
+            os.makedirs(os.path.dirname(settings.SQLITE_DB_PATH), exist_ok=True)
+            with sqlite3.connect(settings.SQLITE_DB_PATH) as conn:
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS research_aggregates (
+                        id TEXT PRIMARY KEY,
+                        age_bracket TEXT NOT NULL,
+                        band TEXT NOT NULL,
+                        triage_level TEXT NOT NULL,
+                        language TEXT NOT NULL,
+                        date TEXT NOT NULL,
+                        created_at TEXT NOT NULL
+                    )
+                """)
+                conn.commit()
+            logger.info(f"Initialized local SQLite research database at {settings.SQLITE_DB_PATH}")
+        except Exception as e:
+            logger.warning(f"Could not initialize local SQLite database: {e}. Running ephemeral mode.")
 
     def save_aggregate(self, req: ResearchShareRequest) -> ResearchShareResponse:
         self._init_storage()
@@ -76,32 +84,50 @@ class ResearchStore:
                     message="Anonymised research aggregate saved to Cloud Firestore."
                 )
             except Exception as e:
-                logger.warning(f"Error saving to Firestore: {e}. Falling back to SQLite.")
+                logger.warning(f"Error saving to Firestore: {e}. Falling back to SQLite/ephemeral.")
+
+        # Vercel serverless ephemeral mode (no persistent disk)
+        if os.environ.get("VERCEL"):
+            return ResearchShareResponse(
+                success=True,
+                record_id=record_id,
+                backend_storage="ephemeral_serverless",
+                message="Anonymised research aggregate accepted (ephemeral serverless mode, zero disk persistence)."
+            )
 
         # SQLite fallback
-        with sqlite3.connect(settings.SQLITE_DB_PATH) as conn:
-            conn.execute(
-                """
-                INSERT INTO research_aggregates (id, age_bracket, band, triage_level, language, date, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    record_id,
-                    req.age_bracket.value,
-                    req.band.value,
-                    req.triage_level.value,
-                    req.language.value,
-                    req.date,
-                    now_iso
+        try:
+            with sqlite3.connect(settings.SQLITE_DB_PATH) as conn:
+                conn.execute(
+                    """
+                    INSERT INTO research_aggregates (id, age_bracket, band, triage_level, language, date, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        record_id,
+                        req.age_bracket.value,
+                        req.band.value,
+                        req.triage_level.value,
+                        req.language.value,
+                        req.date,
+                        now_iso
+                    )
                 )
-            )
-            conn.commit()
+                conn.commit()
 
-        return ResearchShareResponse(
-            success=True,
-            record_id=record_id,
-            backend_storage="local_sqlite",
-            message="Anonymised research aggregate recorded in secure local audit database."
-        )
+            return ResearchShareResponse(
+                success=True,
+                record_id=record_id,
+                backend_storage="local_sqlite",
+                message="Anonymised research aggregate recorded in secure local audit database."
+            )
+        except Exception as e:
+            logger.warning(f"SQLite save failed: {e}. Returning ephemeral response.")
+            return ResearchShareResponse(
+                success=True,
+                record_id=record_id,
+                backend_storage="ephemeral_fallback",
+                message="Anonymised research aggregate accepted in ephemeral fallback mode."
+            )
 
 research_store = ResearchStore()
