@@ -46,8 +46,20 @@ This document records all design, privacy, security, and algorithmic decisions m
 
 ---
 
-## 6. Verification & Quality Assurance (Phase P0-C)
+## 6. Verification & Quality Assurance (Phase P0-C & Release)
 - **Unit & Integration Suite (Vitest)**: 17 tests verify scoring boundaries [0, 100], WHO 2021 semen thresholds, acute symptom overrides (100% recall), counterfactual What-If reactivity, and cross-lingual translation completeness.
 - **Backend Service Suite (pytest)**: 26 tests verify 100% engine parity across 500 edge cases, Gemini safety post-filtering, strict Pydantic `extra="forbid"` models, and rate limits.
-- **End-to-End Suite (Playwright)**: 7 scenarios verify happy path assessment, conditional question branching, red-flag urgent alerts, zero-network-call privacy proof, Escape-key quick hide, unilateral data purge, and Arabic RTL rendering.
+- **End-to-End Suite (Playwright Local)**: 8 scenarios verify happy path assessment, conditional question branching, red-flag urgent alerts, zero-network-call privacy proof, Escape-key quick hide, unilateral data purge, Arabic RTL rendering, and axe-core accessibility.
+- **Live Production Suite (Playwright Live)**: 9 tests run against live Vercel deployments (`https://hayat-frontend-ten.vercel.app` & `https://hayat-backend-nu.vercel.app`), verifying end-to-end functionality, CORS allowlists, and accessibility.
+- **Lighthouse Mobile Audit**: 90 Performance, 100 Accessibility, 100 Best Practices, 100 SEO, 100 Agentic Browsing.
+
+---
+
+## 7. Known Limitations & Verification Scope
+
+1. **Simulated Referral Conversion**: The 68.2% referral action rate in the Evidence dashboard is a modeled KPI derived from published digital health triage studies, not empirical tracking of live clinical patients.
+2. **Ephemeral Serverless Research Store**: When deployed serverlessly on Vercel without persistent cloud storage credentials (GCP/Firebase Service Account), the `/api/research-share` endpoint validates and acknowledges anonymised aggregates in ephemeral mode without persisting them to disk.
+3. **Demo Clinic Directory**: Clinic entries, phone numbers, and teleconsultation booking confirmations are illustrative demonstration data designed to showcase privacy-conscious intake workflows; real patient appointments require clinical provider integration.
+4. **Offline Scope**: The core screening, scoring, and What-If simulator are 100% offline-capable on-device; external AI plain-language text generation requires an active network connection and explicit user consent.
+
 
