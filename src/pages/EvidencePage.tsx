@@ -166,7 +166,7 @@ export const EvidencePage: React.FC = () => {
                   margin={{ left: 10, right: 44, top: 8, bottom: 8 }}
                 >
                   <CartesianGrid horizontal={false} stroke="var(--chart-grid)" strokeDasharray="3 3" />
-                  <XAxis type="number" domain={[80, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
+                  <XAxis type="number" domain={[0, 100]} stroke="var(--chart-axis)" fontSize={12} unit="%" />
                   <YAxis
                     dataKey="step"
                     type="category"

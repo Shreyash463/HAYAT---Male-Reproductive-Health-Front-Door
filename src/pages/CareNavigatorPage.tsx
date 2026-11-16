@@ -12,6 +12,8 @@ import {
   CheckCircle2,
   Check,
   Phone,
+  X,
+  AlertCircle,
 } from 'lucide-react';
 
 export const CareNavigatorPage: React.FC = () => {
@@ -25,6 +27,7 @@ export const CareNavigatorPage: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState('18:30 (Evening)');
   const [discreetLabel] = useState(true);
   const [bookingConfirmed, setBookingConfirmed] = useState<{ id: string } | null>(null);
+  const [demoClinicModalOpen, setDemoClinicModalOpen] = useState(false);
 
   const filteredClinics = MOCK_CLINICS.filter(clinic => {
     if (maleFriendlyOnly && !clinic.features.maleFriendly) return false;
@@ -427,13 +430,14 @@ export const CareNavigatorPage: React.FC = () => {
                       <span className="text-xs sm:text-sm text-[var(--text-muted)] font-mono">
                         ~{clinic.waitDays} days wait (illustrative)
                       </span>
-                      <a
-                        href={`tel:${clinic.phone}`}
-                        className="px-4 min-h-[44px] rounded-xl bg-[var(--surface)] hover:bg-[var(--card-alt)] border border-[var(--border-hairline)] text-[var(--text-main)] text-sm font-medium flex items-center gap-1.5 transition-colors"
+                      <button
+                        type="button"
+                        onClick={() => setDemoClinicModalOpen(true)}
+                        className="px-4 min-h-[44px] rounded-xl bg-[var(--surface)] hover:bg-[var(--card-alt)] border border-[var(--border-hairline)] text-[var(--text-main)] text-sm font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <Phone className="w-4 h-4 text-[var(--accent-text)]" />
                         <span>Call Discreetly</span>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </TiltCard>
@@ -442,6 +446,40 @@ export const CareNavigatorPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Demo Clinic Notice Modal */}
+      {demoClinicModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="paper-card max-w-sm w-full p-6 space-y-4 shadow-xl border border-[var(--border-strong)]">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-2 text-base font-bold font-heading text-[var(--text-main)]">
+                <AlertCircle className="w-5 h-5 text-[var(--accent-text)]" />
+                <span>Demo Only</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setDemoClinicModalOpen(false)}
+                className="p-1 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-main)] cursor-pointer"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+              Demo only. These are sample clinics, not real providers.
+            </p>
+            <div className="pt-2 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setDemoClinicModalOpen(false)}
+                className="px-5 min-h-[40px] rounded-xl bg-[var(--accent)] text-white text-sm font-semibold hover:opacity-95 cursor-pointer"
+              >
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

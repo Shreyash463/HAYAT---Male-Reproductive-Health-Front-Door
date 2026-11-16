@@ -16,5 +16,6 @@ __pycache__/
 venv/
 test-results/
 playwright-report/
+.vercel
 *.db
 backend/data/*.db

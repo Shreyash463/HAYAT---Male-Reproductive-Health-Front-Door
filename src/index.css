@@ -11,9 +11,9 @@
     --text-muted: #6B5F57;
     --brand: #7A645C;
     --brand-soft: rgba(122, 100, 92, 0.12);
-    --accent: #1F8A7D;
-    --accent-text: #156A60;
-    --accent-soft: rgba(31, 138, 125, 0.12);
+    --accent: #17756A;
+    --accent-text: #135E55;
+    --accent-soft: rgba(23, 117, 106, 0.12);
     --border-hairline: rgba(43, 36, 32, 0.11);
     --border-strong: rgba(43, 36, 32, 0.22);
     --card-shadow: 0 2px 12px -2px rgba(43, 36, 32, 0.06), 0 1px 3px 0 rgba(43, 36, 32, 0.04);
@@ -23,13 +23,13 @@
     --gauge-track: rgba(43, 36, 32, 0.10);
 
     /* Risk Band Colors (accessible on light sand) */
-    --risk-low: #1D7A52;
-    --risk-low-bg: rgba(29, 122, 82, 0.10);
-    --risk-low-border: rgba(29, 122, 82, 0.28);
+    --risk-low: #146342;
+    --risk-low-bg: rgba(20, 99, 66, 0.10);
+    --risk-low-border: rgba(20, 99, 66, 0.28);
 
-    --risk-mod: #9A5B06;
-    --risk-mod-bg: rgba(154, 91, 6, 0.10);
-    --risk-mod-border: rgba(154, 91, 6, 0.28);
+    --risk-mod: #8A5004;
+    --risk-mod-bg: rgba(138, 80, 4, 0.10);
+    --risk-mod-border: rgba(138, 80, 4, 0.28);
 
     --risk-elev: #B44B18;
     --risk-elev-bg: rgba(180, 75, 24, 0.10);

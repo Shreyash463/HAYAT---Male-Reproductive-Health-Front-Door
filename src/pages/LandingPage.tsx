@@ -272,8 +272,8 @@ export const LandingPage: React.FC = () => {
                       isActive
                         ? 'bg-[var(--accent-soft)] border-[var(--accent)]'
                         : isPast
-                        ? 'bg-[var(--surface)] border-[var(--border-hairline)] opacity-85'
-                        : 'bg-[var(--surface)] border-[var(--border-hairline)] opacity-55'
+                        ? 'bg-[var(--surface)] border-[var(--border-hairline)]'
+                        : 'bg-[var(--surface)] border-[var(--border-hairline)]'
                     }`}
                   >
                     <div className="flex items-start gap-3">

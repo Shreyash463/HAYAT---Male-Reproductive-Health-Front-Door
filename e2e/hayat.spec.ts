@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
 test.describe('HAYAT End-to-End Test Suite', () => {
   test.beforeEach(async ({ page }) => {
@@ -205,5 +206,18 @@ test.describe('HAYAT End-to-End Test Suite', () => {
     const hiLang = await page.locator('html').getAttribute('lang');
     expect(hiLang).toBe('hi');
     await expect(page.getByText(/हयात/i).first()).toBeVisible();
+  });
+
+  test('8. Accessibility: zero critical or serious WCAG violations', async ({ page }) => {
+    await page.goto('/#/');
+    await page.waitForTimeout(500);
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze();
+
+    const criticalOrSerious = results.violations.filter(
+      v => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(criticalOrSerious).toEqual([]);
   });
 });

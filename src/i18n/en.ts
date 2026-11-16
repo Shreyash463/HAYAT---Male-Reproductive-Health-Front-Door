@@ -128,13 +128,13 @@ export const en = {
 
   // Care Navigator
   careNavTitle: "Care Navigator",
-  careNavSub: "Guiding you to discreet, culturally attuned, and clinically verified next steps.",
+  careNavSub: "Guiding you to discreet, culturally attuned next steps with sample clinic options.",
   whatToExpect: "What to expect",
   typicalVisit: "Typical clinical visit",
   howToPrepare: "How to prepare",
   privateTeleconsult: "Discreet Teleconsultation",
   bookSlot: "Request private slot",
-  findClinic: "Find a verified clinic",
+  findClinic: "Explore sample clinics (demo)",
   filterMaleFriendly: "Male-friendly privacy",
   filterPrivateEntrance: "Private entrance",
   filterMaleClinician: "Male clinician preference",
