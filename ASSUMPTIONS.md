@@ -35,3 +35,19 @@ This document records all design, privacy, security, and algorithmic decisions m
 - **CORS Allowlist**: Restricted to configured origins (`http://localhost:3000`, `http://127.0.0.1:3000`, `http://localhost:5173`, and production URLs).
 - **Rate Limiting**: Configured at 20 requests/minute per client using `slowapi`.
 - **Anonymised Research Storage**: Stored in Google Cloud Firestore via `firebase-admin` when credentials are provided; falls back gracefully to a sandboxed local SQLite database (`backend/data/research_aggregates.db`) for dev/offline verification without storing any IP or user identifier.
+
+---
+
+## 5. Front-End Integration & Real-Time Audit (Phase P0-B)
+- **Separate AI Explanation Consent (`useAiExplanation`)**: Defaulting to `false`. Added to both Consent onboarding and the Live Consent Settings panel on the Privacy Dashboard in English, Arabic, and Hindi.
+- **Live Outbound Network Audit (`hayat:outbound`)**: Custom DOM events track every network dispatch. In the default configuration (optional consents off), the Privacy Dashboard displays "Nothing left your device" with 0 transmissions logged. When opt-in calls occur (e.g., AI explanation), only sanitized enum codes are logged.
+- **Data Purge Disclaimer**: When a user initiates a full wipe, the interface provides clear legal honesty: local storage and cache are destroyed immediately, while noting that previously submitted research aggregates contain zero device tokens or markers and cannot be matched or retroactively retracted.
+- **Honest Evidence Presentation**: "Parity" renamed to "Consistency check" to avoid overclaiming. Fairness charts display honest 0–100% domains. Interactive assumptions accordion exposes all 7 simulation parameters directly from `src/data/evidence.generated.json`.
+
+---
+
+## 6. Verification & Quality Assurance (Phase P0-C)
+- **Unit & Integration Suite (Vitest)**: 17 tests verify scoring boundaries [0, 100], WHO 2021 semen thresholds, acute symptom overrides (100% recall), counterfactual What-If reactivity, and cross-lingual translation completeness.
+- **Backend Service Suite (pytest)**: 26 tests verify 100% engine parity across 500 edge cases, Gemini safety post-filtering, strict Pydantic `extra="forbid"` models, and rate limits.
+- **End-to-End Suite (Playwright)**: 7 scenarios verify happy path assessment, conditional question branching, red-flag urgent alerts, zero-network-call privacy proof, Escape-key quick hide, unilateral data purge, and Arabic RTL rendering.
+
